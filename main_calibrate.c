@@ -19,7 +19,7 @@
 #define diode_freq     5
 #define rattling       50
 #define n_calibrate    10
-#define deleyCelibrate 40000
+#define delayCelibrate 40000
 #define countBlinkRes  3
 
 unsigned char y_flag = 0;
@@ -123,7 +123,7 @@ void main(void){
                   INTCONbits.TMR0IE = 0;
                   interFlag = false;
               }
-              if(counter > deleyCelibrate){       // processing button reset
+              if(counter > delayCelibrate){       // processing button reset
                   resetCalibrator();              // calibration
               }
           }
