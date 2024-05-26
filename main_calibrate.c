@@ -15,12 +15,12 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-#define _XTAL_FREQ 4000000
-#define diode_freq 5
-#define rattling   50
-#define n_calibrate 10
+#define _XTAL_FREQ     4000000
+#define diode_freq     5
+#define rattling       50
+#define n_calibrate    10
 #define deleyCelibrate 40000
-#define countBlinkRes 3
+#define countBlinkRes  3
 
 unsigned char y_flag = 0;
 unsigned char d_flag = 1;
@@ -35,14 +35,17 @@ void interrupt timer0(void) {
     return;
 } 
 
+int readADC(){
+    ADCON0bits.GO = 1;                            // run ADC
+    while(ADCON0bits.GO);                         // waiting conversion to finish
+    adcData = (unsigned int)ADRESH << 8;          // shifting the values
+    return (adcData |= ADRESL);                   // log AND, get the entire value in type int
+}
+
 int Calibrator(){
     int arrData[n_calibrate];
     for(int i = 0; i < n_calibrate; i++){
-        ADCON0bits.GO = 1; 
-        while(ADCON0bits.GO);
-        adcData = (unsigned int)ADRESH << 8;
-        adcData |= ADRESL;
-        arrData[i] = adcData;                     // write 10-n values ADC
+        arrData[i] = readADC();                   // write 10-n values ADC
     }
     int maxvalueDat = arrData[0];
     for(int i = 0; i < n_calibrate; i++){         // find max value of array
@@ -88,7 +91,7 @@ void main(void){
      OPTION_REGbits.PS0 = 1;                     // select prescaler 1:256 PS0-PS2
      OPTION_REGbits.PS1 = 1; 
      OPTION_REGbits.PS2 = 1; 
-                                                // ADCON0bits.CHS0 - CHS2 = 0 (standart) CHANNEL A0
+                                                  // ADCON0bits.CHS0 - CHS2 = 0 (standart) CHANNEL A0
      ADCON0bits.VCFG = 1;                         // Vref on
      ADCON0bits.ADON = 1;                         // ADC enable bit
      ADCON0bits.ADFM = 1;                         // right justifield
@@ -100,11 +103,7 @@ void main(void){
       resetCalibrator();
 
       while(1) {
-          ADCON0bits.GO = 1;                      // run ADC
-          while(ADCON0bits.GO);                   // waiting conversion to finish
-          adcData = (unsigned int)ADRESH << 8;    // shifting the values
-          adcData |= ADRESL;                      // log AND, get the entire value in type int
-          if (adcData > level + sensitivity){     // compare with the level
+          if (readADC() > level + sensitivity){   // compare with the level
               if(!interFlag){                     // checking the presence of the interrupt tim0 flag= 1;                          
               INTCONbits.TMR0IE = 1;              // enter here only after pressing the button
               interFlag = true;                   
