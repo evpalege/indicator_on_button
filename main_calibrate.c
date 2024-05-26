@@ -81,7 +81,7 @@ void main(void){
      INTCONbits.GIE = 1;                         // enable all global interrupts
      INTCONbits.PEIE = 1;                        // enable periferal int
      INTCONbits.TMR0IE = 0;                      // enable timer interrupt
-     INTCONbits.TMR0IF = 0;                      //celar timer overflow flag
+     INTCONbits.TMR0IF = 0;                      // celar timer overflow flag
      INTCONbits.T0IF = 0;                        // interrupt timer       
      TMR0 = 0;                                   // register data timer
    
