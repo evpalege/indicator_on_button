@@ -44,10 +44,10 @@ int readADC(){
 
 int Calibrator(){
     int arrData[n_calibrate];
+    int maxvalueDat = arrData[0];
     for(int i = 0; i < n_calibrate; i++){
         arrData[i] = readADC();                   // write n_calibrate values ADC
     }
-    int maxvalueDat = arrData[0];
     for(int i = 0; i < n_calibrate; i++){         // find max value of array
         if(arrData[i] > maxvalueDat){
             maxvalueDat = arrData[i];
@@ -117,7 +117,7 @@ void main(void){
           while(!RC2){                            // button click processing
               counter++;
               if(counter == rattling){            // processing rattling button
-                  INTCONbits.T0IF = 0;                       // resetting all parameters
+                  INTCONbits.T0IF = 0;            // resetting all parameters
                   PORTCbits.RC0 = 0;
                   PORTCbits.RC1 = 0;
                   INTCONbits.TMR0IE = 0;
