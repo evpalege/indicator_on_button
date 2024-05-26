@@ -45,7 +45,7 @@ int readADC(){
 int Calibrator(){
     int arrData[n_calibrate];
     for(int i = 0; i < n_calibrate; i++){
-        arrData[i] = readADC();                   // write 10-n values ADC
+        arrData[i] = readADC();                   // write n_calibrate values ADC
     }
     int maxvalueDat = arrData[0];
     for(int i = 0; i < n_calibrate; i++){         // find max value of array
