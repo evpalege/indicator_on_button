@@ -88,7 +88,7 @@ void main(void){
      OPTION_REGbits.PS0 = 1;                     // select prescaler 1:256 PS0-PS2
      OPTION_REGbits.PS1 = 1; 
      OPTION_REGbits.PS2 = 1; 
-                                                // ADCON0bits.CHS0 - CHS2 = 0 (standart) CHANNEL A0
+                                                  // ADCON0bits.CHS0 - CHS2 = 0 (standart) CHANNEL A0
      ADCON0bits.VCFG = 1;                         // Vref on
      ADCON0bits.ADON = 1;                         // ADC enable bit
      ADCON0bits.ADFM = 1;                         // right justifield
