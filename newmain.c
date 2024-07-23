@@ -136,7 +136,7 @@ void main(void){
       resetCalibrator();
 
       while(1) {
-          if (readADC() >= (level + sensitivity)){    // compare with the level
+          if ((readADC() >= (level + sensitivity)) && !interFlag){     // compare with the level
               if(!interFlag){                         // checking the presence of the interrupt tim0 flag= 1;                          
               INTCONbits.TMR0IE = 1;                  // enter here only after pressing the button
               interFlag = TRUE;    
